@@ -1,40 +1,81 @@
 package application;
 
-import display.Display;
+import arraygenerator.ArrayGenerator;
+import display.UI;
+import printer.Printer;
+import sorter.ISortable;
+import sorter.SortFactory;
 import user.User;
+
+import java.util.Arrays;
 
 public class Application {
 
-    private static User user = new User();
+    private UI display;
+    private User user;
+    private SortFactory sortFactory;
 
-    private static void choose(User.Choice choice) {
-        int intChoice = 0;
+    public Application() {
+        this.display = new UI();
+        this.user = new User();
+        this.sortFactory = new SortFactory();
+    }
 
-        while(intChoice <= 0) {
+    private int chooseSortAlgorithm() {
+        int userChoice = 0;
+        boolean isChoiceInvalid = true;
 
-            intChoice = switch (choice) {
-                case SORTER -> user.setUserSelection(User.Choice.SORTER);
-                case ARRAY_LENGTH -> user.setUserSelection(User.Choice.ARRAY_LENGTH);
-            };
+        while(isChoiceInvalid) {
+            userChoice = user.selectChoice(User.Choice.SORTER);
+            isChoiceInvalid = userChoice <= 0 || userChoice > sortFactory.getNumberOfSorters();
 
-            if(intChoice <= 0) {
-                System.out.println("Invalid input, please try again");
+            if(isChoiceInvalid) {
+                Printer.printMessage("Invalid choice, please pick again.");
             }
         }
 
+        return userChoice;
     }
 
-    public static void run() {
+    private int chooseArrayLength() {
+        int userChoice = 0;
+        boolean isChoiceInvalid = true;
 
-        Display.displayChoiceOfArrays();
-        choose(User.Choice.SORTER);
+        while(isChoiceInvalid) {
+            userChoice = user.selectChoice(User.Choice.ARRAY_LENGTH);
+            isChoiceInvalid = userChoice <= 0 || userChoice > ArrayGenerator.getMaxNumber();
 
-        Display.displayChoiceOfArraySize();
-        choose(User.Choice.ARRAY_LENGTH);
+            if(isChoiceInvalid) {
+                Printer.printMessage("Invalid choice, please pick again.");
+            }
+        }
 
-        Display.displayUserResults();
-
+        return userChoice;
     }
 
+    private int[] generateRandomArray() {
+        return ArrayGenerator.getRandomArray(user.getChoiceOfArrayLength());
+    }
+
+    private int[] sortRandomArray(int choice, int[] array){
+        ISortable sortable = sortFactory.getSort(choice);
+        return sortable.sort(array);
+    }
+
+    public void run() {
+
+        display.displayChoiceOfArrays();
+        user.setSorterChoice(chooseSortAlgorithm());
+
+        display.displayChoiceOfArraySize();
+        user.setChoiceOfArrayLength(chooseArrayLength());
+
+        int[] unsortedArray = generateRandomArray();
+        String unsortedString = Arrays.toString(unsortedArray);
+        int[] sortedArray = sortRandomArray(user.getSorterChoice(), ArrayGenerator.getArray());
+        String sortedString = Arrays.toString(sortedArray);
+        display.displayUserResults(user.getChoiceOfArrayLength(), unsortedString, sortedString);
+
+    }
 
 }
