@@ -1,10 +1,6 @@
 package display;
 
-import arraygenerator.ArrayGenerator;
 import printer.Printer;
-import user.User;
-
-import java.util.Arrays;
 
 public class UI {
 
