@@ -2,8 +2,6 @@ package sorter;
 
 import org.junit.jupiter.api.*;
 
-import java.time.LocalDate;
-
 public class SorterTest {
 
     public BubbleSort bubbleSort;
