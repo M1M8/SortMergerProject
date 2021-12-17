@@ -1,6 +1,4 @@
-package arraygenerator;
-
-import user.User;
+package array_generator;
 
 import java.util.Random;
 
