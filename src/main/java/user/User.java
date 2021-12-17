@@ -12,7 +12,7 @@ public class User {
     private int sorterChoice;
     private int choiceOfArrayLength;
 
-    public User() {
+    public User(){
         this.sorterChoice = 0;
         this.choiceOfArrayLength = 0;
     }
@@ -29,26 +29,27 @@ public class User {
         return sorterChoice;
     }
 
-    public void setSorterChoice(int sorterChoice) {
-        this.sorterChoice = sorterChoice;
+    public void setSorterChoice(int choice) {
+        this.sorterChoice = choice;
     }
 
-    public int setUserSelection(Choice choice) {
-
-        int selection;
-
-        switch (choice) {
-            case SORTER:
-                selection = sorterChoice;
-                break;
-            case ARRAY_LENGTH:
-                selection = choiceOfArrayLength;
-                break;
-        }
+    public int selectChoice(Choice choice) {
+        int selection = 0;
 
         try {
             Scanner scanner = new Scanner(System.in);
-            selection = scanner.nextInt();
+
+            switch (choice) {
+                case SORTER:
+                    selection = scanner.nextInt();
+                    setSorterChoice(selection);
+                    break;
+                case ARRAY_LENGTH:
+                    selection = scanner.nextInt();
+                    choiceOfArrayLength = selection;
+                    break;
+            }
+
         } catch (Exception isInvalidInput) {
             return 0;
         }
