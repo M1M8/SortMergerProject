@@ -3,7 +3,8 @@ package application;
 public class Main {
 
     public static void main(String[] args) {
-        Application.run();
+        Application app = new Application();
+        app.run();
     }
 
 }
