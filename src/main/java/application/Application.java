@@ -1,6 +1,6 @@
 package application;
 
-import arraygenerator.ArrayGenerator;
+import array_generator.ArrayGenerator;
 import display.UI;
 import printer.Printer;
 import sorter.ISortable;
